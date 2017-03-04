@@ -31,12 +31,13 @@ public class MainActivity extends AppCompatActivity {
 
     private String sendDropboxRequest() {
         String response = "";
+        String authorization ="Bearer 1uEZkPo7nYAAAAAAAAABE7vG19rzn8aZBf491aBu3mGN8dqZz_80juHNNpAOTnrn";
+
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl("https://api.dropboxapi.com")
                 .build();
         DropboxService service = retrofit.create(DropboxService.class);
-
 
         return response;
     }
