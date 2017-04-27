@@ -12,6 +12,9 @@ public class DropboxCurrentAccountResponse {
     private boolean is_paired;
     private AccountType account_type;
 
+    public DropboxCurrentAccountResponse() {
+    }
+
     public String getAccount_id() {
         return account_id;
     }

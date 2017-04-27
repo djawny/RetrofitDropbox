@@ -7,6 +7,9 @@ public class AccountType {
     @SerializedName(".tag")
     private String tag;
 
+    public AccountType() {
+    }
+
     public String getTag() {
         return tag;
     }

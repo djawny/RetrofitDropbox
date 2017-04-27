@@ -7,6 +7,9 @@ public class Name {
     private String display_name;
     private String abbreviated_name;
 
+    public Name() {
+    }
+
     public String getGiven_name() {
         return given_name;
     }
