@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
+import com.sdaacademy.jawny.daniel.retrofitdropbox.api.DropboxService;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -31,14 +33,13 @@ public class MainActivity extends AppCompatActivity {
 
     private String sendDropboxRequest() {
         String response = "";
-        String authorization ="Bearer 1uEZkPo7nYAAAAAAAAABE7vG19rzn8aZBf491aBu3mGN8dqZz_80juHNNpAOTnrn";
+        String authorization = "Bearer 1uEZkPo7nYAAAAAAAAABE7vG19rzn8aZBf491aBu3mGN8dqZz_80juHNNpAOTnrn";
 
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl("https://api.dropboxapi.com")
                 .build();
         DropboxService service = retrofit.create(DropboxService.class);
-
         return response;
     }
 }
