@@ -11,22 +11,38 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.user_data)
     TextView mUserData;
 
+    private CompositeDisposable compositeDisposable;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (compositeDisposable == null) {
+            compositeDisposable = new CompositeDisposable();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (compositeDisposable != null) {
+            compositeDisposable.clear();
+        }
     }
 
     @OnClick(R.id.get_user_data)
@@ -36,13 +52,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void sendDropboxRequest() {
         String authorization = "Bearer 1uEZkPo7nYAAAAAAAAABE7vG19rzn8aZBf491aBu3mGN8dqZz_80juHNNpAOTnrn";
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-//                .baseUrl("https://api.dropboxapi.com")
-//                .build();
-//        DropboxService service = retrofit.create(DropboxService.class);
-        DropboxService.makeDropboxService().getCurrentAccount(authorization)
+
+        compositeDisposable.add(DropboxService
+                .Factory
+                .makeDropboxService()
+                .getCurrentAccount(authorization)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableObserver<DropboxCurrentAccountResponse>() {
@@ -60,6 +74,6 @@ public class MainActivity extends AppCompatActivity {
                     public void onComplete() {
 
                     }
-                });
+                }));
     }
 }

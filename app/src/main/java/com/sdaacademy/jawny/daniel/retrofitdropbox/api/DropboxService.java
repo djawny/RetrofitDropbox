@@ -16,12 +16,14 @@ public interface DropboxService {
     @POST("2/users/get_current_account")
     Observable<DropboxCurrentAccountResponse> getCurrentAccount(@Header("Authorization") String authorization);
 
-    static DropboxService makeDropboxService() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .baseUrl(API_URL)
-                .build();
-        return retrofit.create(DropboxService.class);
+    class Factory {
+        public static DropboxService makeDropboxService() {
+            Retrofit retrofit = new Retrofit.Builder()
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    .baseUrl(API_URL)
+                    .build();
+            return retrofit.create(DropboxService.class);
+        }
     }
 }
